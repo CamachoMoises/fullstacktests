@@ -94,6 +94,6 @@ app.use(unknownEndpoint);
 //   response.writeHead(200, { "Content-Type": "application/json" });
 //   response.end(JSON.stringify(notes));
 // });
-const PORT = 3001;
+const PORT = process.env.PORT || 3001
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
