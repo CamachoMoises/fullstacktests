@@ -21,8 +21,11 @@ let notes = [
     important: true,
   },
 ];
+app.use(express.static('build'));
 app.use(express.json());
 app.use(cors());
+
+
 const requestLogger = (request, response, next) => {
   console.log("Method:", request.method);
   console.log("Path:  ", request.path);
