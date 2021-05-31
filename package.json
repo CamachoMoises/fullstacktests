@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui":"rm -rf build && cd ../part1 && npm run build -- prod && cp -r build ../FullStackTest",
+    "deploy":"git push heroku HEAD:master",
+    "logs:prod": "heroku logs --tail",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
   "author": "Moises Camacho",
   "license": "MIT",
