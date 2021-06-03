@@ -7,8 +7,8 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "build:ui":"rm -rf build && cd ../part1 && npm run build -- prod && cp -r build ../FullStackTest",
-    "deploy":"git push heroku HEAD:master",
+    "build:ui": "rm -rf build && cd ../part1 && npm run build -- prod && cp -r build ../FullStackTest",
+    "deploy": "git push heroku HEAD:master",
     "logs:prod": "heroku logs --tail",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
@@ -16,7 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.12.12"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
