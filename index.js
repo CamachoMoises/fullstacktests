@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+require('dotenv').config();
+const Note = require('./models/note');
+
 let notes = [
   {
     id: 1,
@@ -21,10 +24,9 @@ let notes = [
     important: true,
   },
 ];
-app.use(express.static('build'));
+app.use(express.static("build"));
 app.use(express.json());
 app.use(cors());
-
 
 const requestLogger = (request, response, next) => {
   console.log("Method:", request.method);
@@ -46,24 +48,30 @@ app.post("/api/notes", (request, response) => {
   if (!body.content) {
     return response.status(400).json({ error: "content missing" });
   }
-  const note = {
+  const note = new Note({
     content: body.content,
     important: body.important || false,
     date: new Date(),
-    id: generateId(),
-  };
-  notes = notes.concat(note);
-  response.json(note);
+    // id: generateId(),
+  });
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
+  // notes = notes.concat(note);
+  // response.json(note);
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
+
 app.put("/api/notes/edit/:id", (request, response) => {
   const body = request.body;
   const id = request.params.id;
-  notes=notes.map(note=>note!==id?note:body)
-  response.json(body)
+  notes = notes.map((note) => (note !== id ? note : body));
+  response.json(body);
 });
 
 app.get("/", (request, response) => {
@@ -97,6 +105,7 @@ app.use(unknownEndpoint);
 //   response.writeHead(200, { "Content-Type": "application/json" });
 //   response.end(JSON.stringify(notes));
 // });
-const PORT = process.env.PORT || 3001
-app.listen(PORT);
-console.log(`Server running on port ${PORT}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT , () => {
+  console.log(`Server running on port ${PORT}`)
+});
